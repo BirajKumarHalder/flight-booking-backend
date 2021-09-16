@@ -3,6 +3,7 @@ package com.flight.booking.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,8 +15,9 @@ import com.flight.booking.model.OperatingCity;
 import com.flight.booking.service.OperatingCityService;
 
 @RestController
-@RequestMapping("admin")
-public class AdminOperationController {
+@RequestMapping("flight")
+@CrossOrigin
+public class OperatingCityController {
 
 	@Autowired
 	private OperatingCityService operatingCityService;

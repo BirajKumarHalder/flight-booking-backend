@@ -32,7 +32,7 @@ public class OperatingCitiesEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "city_id")
-	private int cityId;
+	private Integer cityId;
 
 	@Column(name = "city_code")
 	private String cityCode;

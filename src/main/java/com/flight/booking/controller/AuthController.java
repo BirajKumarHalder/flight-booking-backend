@@ -1,6 +1,7 @@
 package com.flight.booking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import com.flight.booking.service.AuthService;
 
 @RestController
 @RequestMapping("user")
+@CrossOrigin
 public class AuthController {
 
 	@Autowired
@@ -27,7 +29,7 @@ public class AuthController {
 
 	@PostMapping("signup")
 	public String signUp(@RequestHeader(name = "password", required = true) String password, @RequestBody User userRq) {
-		return authService.signUp(userRq);
+		return authService.signUp(userRq, password);
 	}
 
 	@PostMapping("signout")
@@ -42,7 +44,7 @@ public class AuthController {
 
 	@PutMapping("update-pasword")
 	public void updatePassword(@RequestHeader(name = "password", required = true) String password,
-			@RequestParam(name = "userId", required = true) String userId) {
+			@RequestParam(name = "userId", required = true) Integer userId) {
 		authService.updatePassword(userId, password);
 	}
 
