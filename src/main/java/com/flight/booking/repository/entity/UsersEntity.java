@@ -28,7 +28,7 @@ public class UsersEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
-	private Integer userId;
+	private int userId;
 
 	@Column(name = "user_name")
 	private String userName;
@@ -40,7 +40,7 @@ public class UsersEntity implements Serializable {
 	private String phone;
 
 	@Column(name = "email_verified")
-	private Boolean emailVerified;
+	private boolean emailVerified;
 
 	@ManyToOne
 	@JoinColumn(name = "role", referencedColumnName = "role_id")

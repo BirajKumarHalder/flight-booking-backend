@@ -1,7 +1,6 @@
 package com.flight.booking.repository.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,8 +27,5 @@ public class BlockedTokensEntity implements Serializable {
 
 	@Column(name = "token")
 	private String token;
-
-	@Column(name = "expire_time")
-	private Timestamp expireTime;
 
 }

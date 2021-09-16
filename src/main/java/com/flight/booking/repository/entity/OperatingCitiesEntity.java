@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "operating_cities")
 public class OperatingCitiesEntity implements Serializable {
 
@@ -29,7 +32,7 @@ public class OperatingCitiesEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "city_id")
-	private Integer cityId;
+	private int cityId;
 
 	@Column(name = "city_code")
 	private String cityCode;
@@ -38,7 +41,7 @@ public class OperatingCitiesEntity implements Serializable {
 	private String cityName;
 
 	@Column(name = "active")
-	private Boolean active;
+	private boolean active;
 
 	@Column(name = "updated_by")
 	@LastModifiedBy
