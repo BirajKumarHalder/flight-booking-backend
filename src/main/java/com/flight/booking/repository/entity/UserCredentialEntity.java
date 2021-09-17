@@ -15,20 +15,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "meals")
-public class MealsEntity implements Serializable {
+@Table(name = "user_credentials")
+public class UserCredentialEntity implements Serializable {
 
-	private static final long serialVersionUID = -3082041301792471410L;
+	private static final long serialVersionUID = -5684896395432089338L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "meal_id")
-	private Integer mealId;
+	@Column(name = "credentials_id")
+	private Integer credentialsId;
 
-	@Column(name = "meal_type")
-	private String mealType;
-
-	@Column(name = "meal_description")
-	private String mealDescription;
+	@Column(name = "password")
+	private String password;
 
 }

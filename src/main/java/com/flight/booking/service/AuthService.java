@@ -16,9 +16,9 @@ import com.flight.booking.repository.BlockedTokenRepository;
 import com.flight.booking.repository.RoleRepository;
 import com.flight.booking.repository.UserCredenttialRepository;
 import com.flight.booking.repository.UserRepository;
-import com.flight.booking.repository.entity.BlockedTokensEntity;
-import com.flight.booking.repository.entity.UserCredentialsEntity;
-import com.flight.booking.repository.entity.UsersEntity;
+import com.flight.booking.repository.entity.BlockedTokenEntity;
+import com.flight.booking.repository.entity.UserCredentialEntity;
+import com.flight.booking.repository.entity.UserEntity;
 import com.flight.booking.utils.JwtUtils;
 
 @Service
@@ -64,12 +64,12 @@ public class AuthService {
 	}
 
 	public String signUp(User userRq, String password) {
-		UsersEntity userEntity = new UsersEntity();
+		UserEntity userEntity = new UserEntity();
 		userEntity.setEmail(userRq.getEmail());
 		userEntity.setUserName(userRq.getUserName());
 		userEntity.setPhone(userRq.getPhone());
-		userEntity.setRole(roleRepository.findByRole(userRq.getRole()).get());
-		UserCredentialsEntity credentialsEntity = new UserCredentialsEntity();
+		userEntity.setRole(roleRepository.findByRoleName(userRq.getRole()).get());
+		UserCredentialEntity credentialsEntity = new UserCredentialEntity();
 		credentialsEntity.setPassword(password);
 		credentialsEntity = userCredenttialRepository.save(credentialsEntity);
 		userEntity.setUserCredentials(credentialsEntity);
@@ -87,7 +87,7 @@ public class AuthService {
 	}
 
 	public void signOut(String accessToken) {
-		BlockedTokensEntity tokenEntity = new BlockedTokensEntity();
+		BlockedTokenEntity tokenEntity = new BlockedTokenEntity();
 		tokenEntity.setToken(accessToken);
 		blockedTokenRepository.save(tokenEntity);
 	}
@@ -98,15 +98,15 @@ public class AuthService {
 			userEntity.setUserName(userRq.getUserName());
 			userEntity.setPhone(userRq.getPhone());
 			userEntity.setEmailVerified(userRq.isEmailVerified());
-			userEntity.setRole(roleRepository.findByRole(userRq.getRole()).get());
+			userEntity.setRole(roleRepository.findByRoleName(userRq.getRole()).get());
 			userRepository.save(userEntity);
 			return userRq;
 		}).orElse(null);
 	}
 
 	public void updatePassword(int userId, String password) {
-		UsersEntity userEntity = userRepository.findById(userId).get();
-		UserCredentialsEntity credentialsEntity = userEntity.getUserCredentials();
+		UserEntity userEntity = userRepository.findById(userId).get();
+		UserCredentialEntity credentialsEntity = userEntity.getUserCredentials();
 		credentialsEntity.setPassword(password);
 		credentialsEntity = userCredenttialRepository.save(credentialsEntity);
 	}

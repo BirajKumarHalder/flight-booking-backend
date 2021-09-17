@@ -24,7 +24,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "flights")
-public class FlightsEntity implements Serializable {
+public class FlightEntity implements Serializable {
 
 	private static final long serialVersionUID = -6889116364259577806L;
 
@@ -34,7 +34,7 @@ public class FlightsEntity implements Serializable {
 	private Integer flightId;
 
 	@Column(name = "flight_number")
-	private String flight_number;
+	private String flightNumber;
 
 	@Column(name = "start_time")
 	private Timestamp startTime;
@@ -43,46 +43,49 @@ public class FlightsEntity implements Serializable {
 	private Timestamp endTime;
 
 	@Column(name = "on_sunday")
-	private Boolean onSunday;
+	private boolean onSunday;
 
 	@Column(name = "on_monday")
-	private Boolean onMonday;
+	private boolean onMonday;
 
 	@Column(name = "on_tuesday")
-	private Boolean onTuesday;
+	private boolean onTuesday;
 
 	@Column(name = "on_wednesday")
-	private Boolean onWednesday;
+	private boolean onWednesday;
 
 	@Column(name = "on_thursday")
-	private Boolean onThursday;
+	private boolean onThursday;
 
 	@Column(name = "on_friday")
-	private Boolean onFriday;
+	private boolean onFriday;
+
+	@Column(name = "on_saturday")
+	private boolean onSaturday;
 
 	@Column(name = "instrument")
 	private String instrument;
 
 	@Column(name = "business_class_seats")
-	private Integer businessClassSeats;
+	private int businessClassSeats;
 
 	@Column(name = "non_business_class_seats")
-	private Integer nonBusinessClassSeats;
+	private int nonBusinessClassSeats;
 
 	@Column(name = "business_class_seats_price")
-	private Integer businessClassSeatsPrice;
+	private int businessClassSeatsPrice;
 
 	@Column(name = "non_business_class_seat_price")
-	private Integer nonBusinessClassSeatsPrice;
+	private int nonBusinessClassSeatsPrice;
 
 	@Column(name = "row_count")
-	private Integer rowCount;
+	private int rowCount;
 
 	@Column(name = "column_count")
-	private Integer columnCount;
+	private int columnCount;
 
 	@Column(name = "active")
-	private Boolean active;
+	private boolean active;
 
 	@Column(name = "updated_by")
 	@LastModifiedBy
@@ -94,19 +97,19 @@ public class FlightsEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "airline", referencedColumnName = "airline_id")
-	private AirlinesEntity airlines;
+	private AirlineEntity airline;
 
 	@ManyToOne
 	@JoinColumn(name = "from", referencedColumnName = "city_id")
-	private OperatingCitiesEntity from;
+	private OperatingCityEntity from;
 
 	@ManyToOne
 	@JoinColumn(name = "to", referencedColumnName = "city_id")
-	private OperatingCitiesEntity to;
+	private OperatingCityEntity to;
 
 	@ManyToOne
 	@JoinColumn(name = "meal", referencedColumnName = "meal_id")
-	private MealsEntity meal;
+	private MealEntity meal;
 
 	@OneToMany(mappedBy = "flight")
 	private List<RoasterEntity> roasters;

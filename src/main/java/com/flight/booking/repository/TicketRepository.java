@@ -2,7 +2,7 @@ package com.flight.booking.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.flight.booking.repository.entity.TicketsEntity;
+import com.flight.booking.repository.entity.TicketEntity;
 
-public interface TicketRepository extends JpaRepository<TicketsEntity, Integer> {
+public interface TicketRepository extends JpaRepository<TicketEntity, Integer> {
 }

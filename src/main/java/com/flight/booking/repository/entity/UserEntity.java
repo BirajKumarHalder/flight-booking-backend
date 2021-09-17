@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "users")
-public class UsersEntity implements Serializable {
+public class UserEntity implements Serializable {
 
 	private static final long serialVersionUID = -1506448393895398L;
 
@@ -44,13 +44,13 @@ public class UsersEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "role", referencedColumnName = "role_id")
-	private RolesEntity role;
+	private RoleEntity role;
 
 	@OneToOne
 	@JoinColumn(name = "credentials", referencedColumnName = "credentials_id")
-	private UserCredentialsEntity userCredentials;
+	private UserCredentialEntity userCredentials;
 
 	@OneToMany(mappedBy = "user")
-	private List<BookingsEntity> bookings;
+	private List<BookingEntity> bookings;
 
 }

@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.flight.booking.repository.entity.RolesEntity;
+import com.flight.booking.repository.entity.RoleEntity;
 
-public interface RoleRepository extends JpaRepository<RolesEntity, Integer> {
+public interface RoleRepository extends JpaRepository<RoleEntity, Integer> {
 
-	Optional<RolesEntity> findByRole(String role);
+	Optional<RoleEntity> findByRoleName(String roleName);
 
 }

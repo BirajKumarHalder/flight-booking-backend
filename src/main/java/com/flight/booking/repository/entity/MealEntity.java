@@ -15,17 +15,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "blocked_tokens")
-public class BlockedTokensEntity implements Serializable {
+@Table(name = "meals")
+public class MealEntity implements Serializable {
 
-	private static final long serialVersionUID = -9118314546882659031L;
+	private static final long serialVersionUID = -3082041301792471410L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "token_id")
-	private Integer tokenId;
+	@Column(name = "meal_id")
+	private Integer mealId;
 
-	@Column(name = "token")
-	private String token;
+	@Column(name = "meal_type")
+	private String mealType;
+
+	@Column(name = "meal_description")
+	private String mealDescription;
 
 }

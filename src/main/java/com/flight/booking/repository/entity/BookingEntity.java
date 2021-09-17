@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "bookings")
-public class BookingsEntity implements Serializable {
+public class BookingEntity implements Serializable {
 
 	private static final long serialVersionUID = -8635694158270551717L;
 
@@ -53,7 +53,7 @@ public class BookingsEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "user", referencedColumnName = "user_id")
-	private UsersEntity user;
+	private UserEntity user;
 
 	@ManyToOne
 	@JoinColumn(name = "applied_coupon", referencedColumnName = "coupon_id")
@@ -64,6 +64,6 @@ public class BookingsEntity implements Serializable {
 	private RoasterEntity roaster;
 
 	@OneToMany(mappedBy = "booking")
-	private List<TicketsEntity> tickets;
+	private List<TicketEntity> tickets;
 
 }

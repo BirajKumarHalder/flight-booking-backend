@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.flight.booking.repository.entity.UsersEntity;
+import com.flight.booking.repository.entity.UserEntity;
 
-public interface UserRepository extends JpaRepository<UsersEntity, Integer> {
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
-	Optional<UsersEntity> findByEmail(String email);
+	Optional<UserEntity> findByEmail(String email);
 }

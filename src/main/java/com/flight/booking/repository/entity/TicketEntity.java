@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "tickets")
-public class TicketsEntity implements Serializable {
+public class TicketEntity implements Serializable {
 
 	private static final long serialVersionUID = 2097166703072681544L;
 
@@ -47,6 +47,6 @@ public class TicketsEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "booking", referencedColumnName = "booking_id")
-	private BookingsEntity booking;
+	private BookingEntity booking;
 
 }

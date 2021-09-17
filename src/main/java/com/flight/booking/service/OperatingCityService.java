@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.flight.booking.model.OperatingCity;
 import com.flight.booking.repository.OperatingCityRepository;
-import com.flight.booking.repository.entity.OperatingCitiesEntity;
+import com.flight.booking.repository.entity.OperatingCityEntity;
 
 @Service
 public class OperatingCityService {
@@ -22,7 +22,7 @@ public class OperatingCityService {
 				.filter(city -> Optional
 						.ofNullable(operatingCityRepository.findByCityCode(city.getCityCode()).orElse(null)).isEmpty())
 				.map(city -> {
-					OperatingCitiesEntity cityEntity = new OperatingCitiesEntity();
+					OperatingCityEntity cityEntity = new OperatingCityEntity();
 					cityEntity.setCityCode(city.getCityCode());
 					cityEntity.setCityName(city.getCityName());
 					cityEntity.setActive(city.isActive());
@@ -32,21 +32,22 @@ public class OperatingCityService {
 				}).collect(Collectors.toList());
 	}
 
-	public List<OperatingCity> getAllOperatingCities() {
-		return operatingCityRepository.findAll().parallelStream().map(cityEntity -> {
-			OperatingCity city = new OperatingCity();
-			city.setCityId(cityEntity.getCityId());
-			city.setCityCode(cityEntity.getCityCode());
-			city.setCityName(cityEntity.getCityName());
-			city.setActive(city.isActive());
-			return city;
-		}).collect(Collectors.toList());
+	public List<OperatingCity> getAllOperatingCities(boolean includeInactive) {
+		return operatingCityRepository.findAll().parallelStream()
+				.filter(cityEntity -> includeInactive ? true : cityEntity.isActive()).map(cityEntity -> {
+					OperatingCity city = new OperatingCity();
+					city.setCityId(cityEntity.getCityId());
+					city.setCityCode(cityEntity.getCityCode());
+					city.setCityName(cityEntity.getCityName());
+					city.setActive(city.isActive());
+					return city;
+				}).collect(Collectors.toList());
 	}
 
 	public List<OperatingCity> updateOperatingCities(List<OperatingCity> operatingCities) {
 		return operatingCities.parallelStream().map(city -> {
-			OperatingCitiesEntity cityEntity = operatingCityRepository.findByCityCode(city.getCityCode())
-					.orElse(new OperatingCitiesEntity());
+			OperatingCityEntity cityEntity = operatingCityRepository.findByCityCode(city.getCityCode())
+					.orElse(new OperatingCityEntity());
 			cityEntity.setCityName(city.getCityName());
 			cityEntity.setActive(city.isActive());
 			cityEntity = operatingCityRepository.save(cityEntity);

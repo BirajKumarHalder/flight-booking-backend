@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "roles")
-public class RolesEntity implements Serializable {
+public class RoleEntity implements Serializable {
 
 	private static final long serialVersionUID = 343706681463049262L;
 

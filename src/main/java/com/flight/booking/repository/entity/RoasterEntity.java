@@ -67,21 +67,21 @@ public class RoasterEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "flight", referencedColumnName = "flight_id")
-	private FlightsEntity flight;
+	private FlightEntity flight;
 
 	@ManyToOne
 	@JoinColumn(name = "from", referencedColumnName = "city_id")
-	private OperatingCitiesEntity from;
+	private OperatingCityEntity from;
 
 	@ManyToOne
 	@JoinColumn(name = "to", referencedColumnName = "city_id")
-	private OperatingCitiesEntity to;
+	private OperatingCityEntity to;
 
 	@ManyToOne
 	@JoinColumn(name = "status", referencedColumnName = "status_id")
 	private RoasterStatusEntity status;
 
 	@OneToMany(mappedBy = "roaster")
-	private List<BookingsEntity> bookings;
+	private List<BookingEntity> bookings;
 
 }

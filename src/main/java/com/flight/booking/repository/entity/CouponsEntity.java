@@ -55,6 +55,6 @@ public class CouponsEntity implements Serializable {
 	private Timestamp updatedOn;
 
 	@OneToMany(mappedBy = "appliedCoupon")
-	private List<BookingsEntity> bookings;
+	private List<BookingEntity> bookings;
 
 }
