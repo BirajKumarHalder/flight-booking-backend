@@ -53,6 +53,14 @@ public class FlightController {
 		return flightService.updateFlights(flights);
 	}
 
+	@PutMapping("change-flight-status")
+	@ApiOperation(value = "change-flight-status", nickname = "change-flight-status", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Integer.class) })
+	public Integer changeFlightStatus(@RequestParam(name = "flightId", required = true) String flightId,
+			@RequestParam(name = "status", required = true) String status) {
+		return flightService.changeFlightStatus(Integer.parseInt(flightId), Boolean.parseBoolean(status));
+	}
+
 	@DeleteMapping("delete-flight")
 	@ApiOperation(value = "delete-flight", nickname = "delete-flight", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Integer.class, responseContainer = "List") })

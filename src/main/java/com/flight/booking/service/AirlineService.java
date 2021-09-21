@@ -35,6 +35,8 @@ public class AirlineService {
 					airlineEntity.setAirlineLogo(fileRepository.getById(airline.getAirlineLogoId()));
 					airlineEntity = airlineRepository.save(airlineEntity);
 					airline.setAirlineId(airlineEntity.getAirlineId());
+					airline.setAirlineLogo(airlineEntity.getAirlineLogo().getFileContent());
+					airline.setAirlineLogoType(airlineEntity.getAirlineLogo().getFileType());
 					return airline;
 				}).collect(Collectors.toList());
 	}
@@ -49,6 +51,7 @@ public class AirlineService {
 					airline.setAirlineAddress(airlineEntity.getAirlineAddress());
 					airline.setActive(airlineEntity.isActive());
 					airline.setAirlineLogo(airlineEntity.getAirlineLogo().getFileContent());
+					airline.setAirlineLogoType(airlineEntity.getAirlineLogo().getFileType());
 					return airline;
 				}).collect(Collectors.toList());
 	}
@@ -63,6 +66,8 @@ public class AirlineService {
 			airlineEntity.setAirlineLogo(fileRepository.getById(airline.getAirlineLogoId()));
 			airlineEntity = airlineRepository.save(airlineEntity);
 			airline.setAirlineId(airlineEntity.getAirlineId());
+			airline.setAirlineLogo(airlineEntity.getAirlineLogo().getFileContent());
+			airline.setAirlineLogoType(airlineEntity.getAirlineLogo().getFileType());
 			return airline;
 		}).collect(Collectors.toList());
 	}
@@ -74,6 +79,13 @@ public class AirlineService {
 			airlineEntity = airlineRepository.save(airlineEntity);
 			return airlineId;
 		}).collect(Collectors.toList());
+	}
+
+	public int changeAirlineStatus(int airlineId, boolean status) {
+		AirlineEntity airlineEntity = airlineRepository.findById(airlineId).get();
+		airlineEntity.setActive(status);
+		airlineEntity = airlineRepository.save(airlineEntity);
+		return airlineId;
 	}
 
 }

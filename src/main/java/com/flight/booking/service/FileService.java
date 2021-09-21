@@ -17,7 +17,9 @@ public class FileService {
 
 	public Integer uploadFile(MultipartFile file) {
 		FilesEntity fileEntity = new FilesEntity();
-		fileEntity.setFileName(file.getOriginalFilename());
+		String filename = file.getOriginalFilename();
+		fileEntity.setFileType(filename.substring(filename.lastIndexOf(".") + 1));
+		fileEntity.setFileName(filename);
 		try {
 			fileEntity.setFileContent(file.getBytes());
 		} catch (IOException e) {

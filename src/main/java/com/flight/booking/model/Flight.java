@@ -17,6 +17,7 @@ public class Flight {
 	private OperatingCity to;
 	private String startTime;
 	private String endTime;
+	private String duration;
 	private boolean onSunday;
 	private boolean onMonday;
 	private boolean onTuesday;

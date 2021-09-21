@@ -40,11 +40,16 @@ public class FlightService {
 				.map(flight -> {
 					FlightEntity flightEntity = new FlightEntity();
 					flightEntity.setFlightNumber(flight.getFlightNumber());
-					flightEntity.setAirline(airlineRepository.getById(flight.getAirline().getAirlineId()));
-					flightEntity.setFrom(cityRepository.getById(flight.getFrom().getCityId()));
-					flightEntity.setTo(cityRepository.getById(flight.getTo().getCityId()));
-//					flightEntity.setStartTime(flight.getStartTime());
-//					flightEntity.setEndTime(flight.getEndTime());
+					flightEntity.setAirline(Optional
+							.ofNullable(airlineRepository.findById(flight.getAirline().getAirlineId()).orElse(null))
+							.get());
+					flightEntity.setFrom(Optional
+							.ofNullable(cityRepository.findById(flight.getFrom().getCityId()).orElse(null)).get());
+					flightEntity.setTo(Optional
+							.ofNullable(cityRepository.findById(flight.getTo().getCityId()).orElse(null)).get());
+					flightEntity.setStartTime(flight.getStartTime());
+					flightEntity.setEndTime(flight.getEndTime());
+					flightEntity.setDuration(flight.getDuration());
 					flightEntity.setOnSunday(flight.isOnSunday());
 					flightEntity.setOnMonday(flight.isOnMonday());
 					flightEntity.setOnTuesday(flight.isOnTuesday());
@@ -60,9 +65,31 @@ public class FlightService {
 					flightEntity.setRowCount(flight.getRowCount());
 					flightEntity.setColumnCount(flight.getColumnCount());
 					flightEntity.setActive(flight.isActive());
-					flightEntity.setMeal(mealRepository.getById(flight.getMeal().getMealId()));
+					flightEntity.setMeal(Optional
+							.ofNullable(mealRepository.findById(flight.getMeal().getMealId()).orElse(null)).get());
 					flightEntity = flightRepository.save(flightEntity);
 					flight.setFlightId(flightEntity.getFlightId());
+					Airline airline = new Airline();
+					airline.setAirlineId(flightEntity.getAirline().getAirlineId());
+					airline.setAirlineName(flightEntity.getAirline().getAirlineName());
+					airline.setAirlineLogo(flightEntity.getAirline().getAirlineLogo().getFileContent());
+					airline.setAirlineLogoType(flightEntity.getAirline().getAirlineLogo().getFileType());
+					flight.setAirline(airline);
+					OperatingCity from = new OperatingCity();
+					from.setCityId(flightEntity.getFrom().getCityId());
+					from.setCityCode(flightEntity.getFrom().getCityCode());
+					from.setCityName(flightEntity.getFrom().getCityName());
+					flight.setFrom(from);
+					OperatingCity to = new OperatingCity();
+					to.setCityId(flightEntity.getTo().getCityId());
+					to.setCityCode(flightEntity.getTo().getCityCode());
+					to.setCityName(flightEntity.getTo().getCityName());
+					flight.setTo(to);
+					Meal meal = new Meal();
+					meal.setMealId(flightEntity.getMeal().getMealId());
+					meal.setMealType(flightEntity.getMeal().getMealType());
+					meal.setMealDescription(flightEntity.getMeal().getMealDescription());
+					flight.setMeal(meal);
 					return flight;
 				}).collect(Collectors.toList());
 	}
@@ -76,6 +103,8 @@ public class FlightService {
 					Airline airline = new Airline();
 					airline.setAirlineId(flightEntity.getAirline().getAirlineId());
 					airline.setAirlineName(flightEntity.getAirline().getAirlineName());
+					airline.setAirlineLogo(flightEntity.getAirline().getAirlineLogo().getFileContent());
+					airline.setAirlineLogoType(flightEntity.getAirline().getAirlineLogo().getFileType());
 					flight.setAirline(airline);
 					OperatingCity from = new OperatingCity();
 					from.setCityId(flightEntity.getFrom().getCityId());
@@ -87,8 +116,9 @@ public class FlightService {
 					to.setCityCode(flightEntity.getTo().getCityCode());
 					to.setCityName(flightEntity.getTo().getCityName());
 					flight.setTo(to);
-//					flight.setStartTime(flightEntity.getStartTime());
-//					flight.setEndTime(flightEntity.getEndTime());
+					flight.setStartTime(flightEntity.getStartTime());
+					flight.setEndTime(flightEntity.getEndTime());
+					flight.setDuration(flightEntity.getDuration());
 					flight.setOnSunday(flightEntity.isOnSunday());
 					flight.setOnMonday(flightEntity.isOnMonday());
 					flight.setOnTuesday(flightEntity.isOnTuesday());
@@ -120,8 +150,9 @@ public class FlightService {
 			flightEntity.setAirline(airlineRepository.getById(flight.getAirline().getAirlineId()));
 			flightEntity.setFrom(cityRepository.getById(flight.getFrom().getCityId()));
 			flightEntity.setTo(cityRepository.getById(flight.getTo().getCityId()));
-//					flightEntity.setStartTime(flight.getStartTime());
-//					flightEntity.setEndTime(flight.getEndTime());
+			flightEntity.setStartTime(flight.getStartTime());
+			flightEntity.setEndTime(flight.getEndTime());
+			flightEntity.setDuration(flight.getDuration());
 			flightEntity.setOnSunday(flight.isOnSunday());
 			flightEntity.setOnMonday(flight.isOnMonday());
 			flightEntity.setOnTuesday(flight.isOnTuesday());
@@ -151,6 +182,13 @@ public class FlightService {
 			flightEntity = flightRepository.save(flightEntity);
 			return flightId;
 		}).collect(Collectors.toList());
+	}
+
+	public int changeFlightStatus(int flightId, boolean status) {
+		FlightEntity flightEntity = flightRepository.findById(flightId).get();
+		flightEntity.setActive(status);
+		flightEntity = flightRepository.save(flightEntity);
+		return flightId;
 	}
 
 }

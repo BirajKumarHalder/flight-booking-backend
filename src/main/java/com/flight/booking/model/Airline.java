@@ -21,6 +21,7 @@ public class Airline {
 	private String updatedOn;
 	private byte[] airlineLogo;
 	private Integer airlineLogoId;
+	private String airlineLogoType;
 	private List<Flight> flights;
 
 }

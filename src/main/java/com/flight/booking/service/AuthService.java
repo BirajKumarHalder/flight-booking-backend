@@ -45,10 +45,12 @@ public class AuthService {
 	@Value("${application.jwt.expTime}")
 	private int expTime;
 
-	public String signIn(String signInId, String password) {
+	public String signIn(String signInId, String password, boolean adminLogin) {
 		return Optional.ofNullable(userRepository.findByEmail(signInId).orElse(null))
 				.filter(userEntity -> userEntity != null && userEntity.getUserCredentials() != null
-						&& password.equals(userEntity.getUserCredentials().getPassword()))
+						&& password.equals(userEntity.getUserCredentials().getPassword()) && adminLogin
+								? userEntity.getRole().getRoleName().equalsIgnoreCase("ADMIN")
+								: true)
 				.map(userEntity -> {
 					Map<String, Object> claimMap = new HashMap<>();
 					claimMap.put("userId", userEntity.getUserId());
@@ -64,6 +66,9 @@ public class AuthService {
 	}
 
 	public String signUp(User userRq, String password) {
+		if (Optional.ofNullable(userRepository.findByEmail(userRq.getEmail()).orElse(null)).isPresent()) {
+			throw new RuntimeException("Email already added");
+		}
 		UserEntity userEntity = new UserEntity();
 		userEntity.setEmail(userRq.getEmail());
 		userEntity.setUserName(userRq.getUserName());
@@ -109,6 +114,20 @@ public class AuthService {
 		UserCredentialEntity credentialsEntity = userEntity.getUserCredentials();
 		credentialsEntity.setPassword(password);
 		credentialsEntity = userCredenttialRepository.save(credentialsEntity);
+	}
+
+	public User userDetails(String signInId) {
+		return Optional.ofNullable(userRepository.findByEmail(signInId).orElse(null)).map(userEntity -> {
+			User user = new User();
+			user.setUserId(userEntity.getUserId());
+			user.setEmail(userEntity.getEmail());
+			user.setUserName(userEntity.getUserName());
+			user.setPhone(userEntity.getPhone());
+			user.setEmailVerified(userEntity.isEmailVerified());
+			user.setRole(userEntity.getRole().getRoleName());
+			userRepository.save(userEntity);
+			return user;
+		}).orElse(null);
 	}
 
 }

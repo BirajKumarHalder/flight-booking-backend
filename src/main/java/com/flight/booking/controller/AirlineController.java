@@ -53,6 +53,14 @@ public class AirlineController {
 		return airlineService.updateAirlines(airlines);
 	}
 
+	@PutMapping("change-airline-status")
+	@ApiOperation(value = "change-airline-status", nickname = "change-airline-status", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Integer.class) })
+	public Integer changeAirlineStatus(@RequestParam(name = "airlineId", required = true) String airlineId,
+			@RequestParam(name = "status", required = true) String status) {
+		return airlineService.changeAirlineStatus(Integer.parseInt(airlineId), Boolean.parseBoolean(status));
+	}
+
 	@DeleteMapping("delete-airlines")
 	@ApiOperation(value = "delete-airlines", nickname = "delete-airlines", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Integer.class, responseContainer = "List") })

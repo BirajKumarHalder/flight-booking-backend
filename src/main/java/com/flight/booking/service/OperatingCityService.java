@@ -39,7 +39,7 @@ public class OperatingCityService {
 					city.setCityId(cityEntity.getCityId());
 					city.setCityCode(cityEntity.getCityCode());
 					city.setCityName(cityEntity.getCityName());
-					city.setActive(city.isActive());
+					city.setActive(cityEntity.isActive());
 					return city;
 				}).collect(Collectors.toList());
 	}

@@ -29,6 +29,9 @@ public class FilesEntity implements Serializable {
 	@Column(name = "file_name")
 	private String fileName;
 
+	@Column(name = "file_type")
+	private String fileType;
+
 	@Lob
 	@Column(name = "file_content")
 	private byte[] fileContent;

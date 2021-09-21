@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "flights")
 public class FlightEntity implements Serializable {
 
@@ -37,10 +40,13 @@ public class FlightEntity implements Serializable {
 	private String flightNumber;
 
 	@Column(name = "start_time")
-	private Timestamp startTime;
+	private String startTime;
 
 	@Column(name = "end_time")
-	private Timestamp endTime;
+	private String endTime;
+
+	@Column(name = "duration")
+	private String duration;
 
 	@Column(name = "on_sunday")
 	private boolean onSunday;
@@ -100,11 +106,11 @@ public class FlightEntity implements Serializable {
 	private AirlineEntity airline;
 
 	@ManyToOne
-	@JoinColumn(name = "from", referencedColumnName = "city_id")
+	@JoinColumn(name = "from_city", referencedColumnName = "city_id")
 	private OperatingCityEntity from;
 
 	@ManyToOne
-	@JoinColumn(name = "to", referencedColumnName = "city_id")
+	@JoinColumn(name = "to_city", referencedColumnName = "city_id")
 	private OperatingCityEntity to;
 
 	@ManyToOne
