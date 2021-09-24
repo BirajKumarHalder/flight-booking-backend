@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,30 +27,21 @@ import lombok.Setter;
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "coupons")
-public class CouponsEntity implements Serializable {
+@Table(name = "pnrs")
+public class PnrEntity implements Serializable {
 
-	private static final long serialVersionUID = 2835756327227107486L;
+	private static final long serialVersionUID = -8635694158270551717L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "coupon_id")
-	private Integer couponId;
+	@Column(name = "pnr_id")
+	private Integer pnrId;
 
-	@Column(name = "coupon_name")
-	private String couponName;
+	@Column(name = "pnr_number")
+	private String pnrNumber;
 
-	@Column(name = "discount_coupon")
-	private boolean discountCoupon;
-
-	@Column(name = "coupon_description")
-	private String couponDescription;
-
-	@Column(name = "coupon_discount_percentage")
-	private int couponDiscountPercentage;
-
-	@Column(name = "active")
-	private boolean active;
+	@Column(name="total_pnr_price")
+	private int totalPnrPrice;
 
 	@Column(name = "updated_by")
 	@LastModifiedBy
@@ -57,7 +51,11 @@ public class CouponsEntity implements Serializable {
 	@LastModifiedDate
 	private Timestamp updatedOn;
 
-	@OneToMany(mappedBy = "appliedCoupon")
+	@ManyToOne
+	@JoinColumn(name = "user", referencedColumnName = "user_id")
+	private UserEntity user;
+
+	@OneToMany(mappedBy = "pnr", cascade = CascadeType.PERSIST)
 	private List<BookingEntity> bookings;
 
 }

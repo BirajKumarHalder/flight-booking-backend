@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,23 +31,20 @@ public class BookingEntity implements Serializable {
 	@Column(name = "booking_id")
 	private Integer bookingId;
 
-	@Column(name = "pnr_number")
-	private String pnrNumber;
-
 	@Column(name = "number_of_passengers")
-	private Integer numberOfPassengers;
+	private int numberOfPassengers;
 
 	@Column(name = "price")
-	private Integer price;
+	private int price;
 
 	@Column(name = "confirmed")
-	private Boolean confirmed;
+	private boolean confirmed;
 
 	@Column(name = "active")
-	private Boolean active;
+	private boolean active;
 
 	@Column(name = "refund_amount")
-	private Integer refundAmount;
+	private int refundAmount;
 
 	@Column(name = "refund_date")
 	private Timestamp refundDate;
@@ -60,10 +58,14 @@ public class BookingEntity implements Serializable {
 	private CouponsEntity appliedCoupon;
 
 	@ManyToOne
+	@JoinColumn(name = "pnr", referencedColumnName = "pnr_id")
+	private PnrEntity pnr;
+
+	@ManyToOne
 	@JoinColumn(name = "roaster", referencedColumnName = "roaster_id")
 	private RoasterEntity roaster;
 
-	@OneToMany(mappedBy = "booking")
+	@OneToMany(mappedBy = "booking", cascade = CascadeType.PERSIST)
 	private List<TicketEntity> tickets;
 
 }

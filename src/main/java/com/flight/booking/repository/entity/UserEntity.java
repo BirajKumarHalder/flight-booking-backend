@@ -51,6 +51,9 @@ public class UserEntity implements Serializable {
 	private UserCredentialEntity userCredentials;
 
 	@OneToMany(mappedBy = "user")
+	private List<PnrEntity> pnrs;
+
+	@OneToMany(mappedBy = "user")
 	private List<BookingEntity> bookings;
 
 }

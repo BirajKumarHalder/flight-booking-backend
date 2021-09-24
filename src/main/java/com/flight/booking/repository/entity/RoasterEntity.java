@@ -2,6 +2,7 @@ package com.flight.booking.repository.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -36,26 +39,30 @@ public class RoasterEntity implements Serializable {
 	@Column(name = "roaster_id")
 	private Integer roasterId;
 
+	@Column(name = "roaster_date")
+	@Temporal(TemporalType.DATE)
+	private Date roasterDate;
+
 	@Column(name = "depurture")
-	private Timestamp depurture;
+	private String depurture;
 
 	@Column(name = "arrival")
-	private Timestamp arrival;
+	private String arrival;
 
 	@Column(name = "delay_time_in_mins")
-	private Integer delay_time_in_mins;
+	private int delayTimeInMins;
 
 	@Column(name = "business_class_seats_available")
-	private Integer businessClassSeatsAvailable;
+	private int businessClassSeatsAvailable;
 
 	@Column(name = "non_business_class_seats_available")
-	private Integer nonBusinessClassSeatsAvailable;
+	private int nonBusinessClassSeatsAvailable;
 
-	@Column(name = "business_class_seats_price")
-	private Integer businessClassSeatsPrice;
+	@Column(name = "business_class_seat_price")
+	private int businessClassSeatsPrice;
 
 	@Column(name = "non_business_class_seat_price")
-	private Integer nonBusinessClassSeatsPrice;
+	private int nonBusinessClassSeatsPrice;
 
 	@Column(name = "remarks")
 	private String remarks;
@@ -73,11 +80,11 @@ public class RoasterEntity implements Serializable {
 	private FlightEntity flight;
 
 	@ManyToOne
-	@JoinColumn(name = "from", referencedColumnName = "city_id")
+	@JoinColumn(name = "from_city", referencedColumnName = "city_id")
 	private OperatingCityEntity from;
 
 	@ManyToOne
-	@JoinColumn(name = "to", referencedColumnName = "city_id")
+	@JoinColumn(name = "to_city", referencedColumnName = "city_id")
 	private OperatingCityEntity to;
 
 	@ManyToOne

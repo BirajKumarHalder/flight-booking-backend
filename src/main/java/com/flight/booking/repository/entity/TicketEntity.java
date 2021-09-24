@@ -34,7 +34,7 @@ public class TicketEntity implements Serializable {
 	private String passengerName;
 
 	@Column(name = "passenger_age")
-	private Integer passengerAge;
+	private int passengerAge;
 
 	@Column(name = "passenger_contact")
 	private String passengerContact;
@@ -44,6 +44,9 @@ public class TicketEntity implements Serializable {
 
 	@Column(name = "passenger_identity_type")
 	private String passengerIdentityType;
+
+	@Column(name = "seat_type")
+	private String seatType;
 
 	@ManyToOne
 	@JoinColumn(name = "booking", referencedColumnName = "booking_id")

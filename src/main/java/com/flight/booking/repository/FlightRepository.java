@@ -9,4 +9,5 @@ import com.flight.booking.repository.entity.FlightEntity;
 public interface FlightRepository extends JpaRepository<FlightEntity, Integer> {
 
 	Optional<FlightEntity> findByFlightNumber(String flightNumber);
+
 }

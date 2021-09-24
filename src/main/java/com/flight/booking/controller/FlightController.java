@@ -46,6 +46,14 @@ public class FlightController {
 		return flightService.getAllFlights(Boolean.parseBoolean(includeInactive));
 	}
 
+	@GetMapping("flight-for-date")
+	@ApiOperation(value = "flight-for-date", nickname = "flight-for-date", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Flight.class, responseContainer = "List") })
+	public List<Flight> getFlightsForDate(@RequestParam(name = "date", required = true) String date,
+			@RequestParam(name = "include-inactive", defaultValue = "false") String includeInactive) {
+		return flightService.getFlightsForDate(date, Boolean.parseBoolean(includeInactive));
+	}
+
 	@PutMapping("update-flight")
 	@ApiOperation(value = "update-flight", nickname = "update-flight", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Flight.class, responseContainer = "List") })
