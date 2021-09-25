@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flight.booking.model.Pnr;
+import com.flight.booking.model.TicketDetails;
 import com.flight.booking.service.FlightBookingService;
 
 import io.swagger.annotations.Api;
@@ -41,6 +42,13 @@ public class FlightBookingController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Pnr.class) })
 	public Pnr searchPnr(@RequestParam(name = "pnr", required = true) String pnrNumber) {
 		return bookingService.searchPnr(pnrNumber);
+	}
+
+	@GetMapping("search-ticket")
+	@ApiOperation(value = "search-ticket", nickname = "search-ticket", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = TicketDetails.class) })
+	public TicketDetails searchTicket(@RequestParam(name = "ticket", required = true) String ticketNumber) {
+		return bookingService.searchTicket(ticketNumber);
 	}
 
 	@GetMapping("search-pnr-by-user")

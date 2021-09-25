@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 import com.flight.booking.model.Booking;
 import com.flight.booking.model.Pnr;
 import com.flight.booking.model.Ticket;
+import com.flight.booking.model.TicketDetails;
 import com.flight.booking.model.User;
 import com.flight.booking.repository.CouponRepository;
 import com.flight.booking.repository.PnrRepository;
 import com.flight.booking.repository.RoasterRepository;
+import com.flight.booking.repository.TicketRepository;
 import com.flight.booking.repository.UserRepository;
 import com.flight.booking.repository.entity.BookingEntity;
 import com.flight.booking.repository.entity.PnrEntity;
@@ -29,6 +31,9 @@ public class FlightBookingService {
 
 	@Autowired
 	private PnrRepository pnrRepository;
+
+	@Autowired
+	private TicketRepository ticketRepository;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -131,14 +136,53 @@ public class FlightBookingService {
 
 	public Pnr searchPnr(String pnrNumber) {
 		return Optional.ofNullable(pnrRepository.findByPnrNumber(pnrNumber).orElse(null))
-				.map(pnrEntity -> Mappers.mapPnrEntityToPnr(pnrEntity)).get();
+				.map(pnrEntity -> Mappers.mapPnrEntityToPnr(pnrEntity)).orElse(null);
 	}
 
 	public List<Pnr> searchPnrByUser(String email) {
-		return Optional.ofNullable(userRepository.findByEmail(email).orElse(null))
-				.map(userEntity -> userEntity.getPnrs().parallelStream()
-						.map(pnrEntity -> Mappers.mapPnrEntityToPnr(pnrEntity)).collect(Collectors.toList()))
+		return Optional
+				.ofNullable(userRepository.findByEmail(email).orElse(null)).map(userEntity -> userEntity.getPnrs()
+						.stream().map(pnrEntity -> Mappers.mapPnrEntityToPnr(pnrEntity)).collect(Collectors.toList()))
 				.get();
+	}
+
+	public TicketDetails searchTicket(String ticketNumber) {
+		return Optional.ofNullable(ticketRepository.findByTicketNumber(ticketNumber).orElse(null)).map(ticketEntity -> {
+			TicketDetails ticketDetails = new TicketDetails();
+			BookingEntity bookingEntity = ticketEntity.getBooking();
+			PnrEntity pnrEntity = bookingEntity.getPnr();
+			ticketDetails.setTicketId(ticketEntity.getTicketId());
+			ticketDetails.setTicketNumber(ticketEntity.getTicketNumber());
+			ticketDetails.setPnrId(pnrEntity.getPnrId());
+			ticketDetails.setBookingActive(bookingEntity.isActive());
+			ticketDetails.setPassengerName(ticketEntity.getPassengerName());
+			ticketDetails.setPassengerAge(ticketEntity.getPassengerAge());
+			ticketDetails.setPassengerContact(ticketEntity.getPassengerContact());
+			ticketDetails.setPassengerIdentityType(ticketEntity.getPassengerIdentityType());
+			ticketDetails.setSeatType(ticketEntity.getSeatType());
+			ticketDetails.setPnrNumber(pnrEntity.getPnrNumber());
+			ticketDetails.setBookingConfirmed(bookingEntity.isConfirmed());
+			ticketDetails.setFlightNumber(bookingEntity.getRoaster().getFlight().getFlightNumber());
+			ticketDetails.setAirline(bookingEntity.getRoaster().getFlight().getAirline().getAirlineName());
+			ticketDetails.setFromCityCode(bookingEntity.getRoaster().getFrom().getCityCode());
+			ticketDetails.setFromCityName(bookingEntity.getRoaster().getFrom().getCityName());
+			ticketDetails.setToCityCode(bookingEntity.getRoaster().getTo().getCityCode());
+			ticketDetails.setToCityName(bookingEntity.getRoaster().getTo().getCityName());
+			ticketDetails.setRoasterStatus(bookingEntity.getRoaster().getStatus().getStatusName());
+			ticketDetails.setRoasterDate(
+					FlightUtils.getFormattedDate(bookingEntity.getRoaster().getRoasterDate(), "dd/MM/yyyy"));
+			ticketDetails.setDepurture(bookingEntity.getRoaster().getDepurture());
+			ticketDetails.setArrival(bookingEntity.getRoaster().getArrival());
+			ticketDetails.setTicketPrice((bookingEntity.getPrice() / bookingEntity.getNumberOfPassengers()));
+			if (bookingEntity.getAppliedCoupon() != null) {
+				ticketDetails.setCouponId(bookingEntity.getAppliedCoupon().getCouponId());
+				ticketDetails.setCouponName(bookingEntity.getAppliedCoupon().getCouponName());
+				ticketDetails.setCouponDescription(bookingEntity.getAppliedCoupon().getCouponDescription());
+			}
+			ticketDetails.setBookingUserName(bookingEntity.getUser().getUserName());
+			ticketDetails.setBookingUserEmail(bookingEntity.getUser().getEmail());
+			return ticketDetails;
+		}).orElse(null);
 	}
 
 }
