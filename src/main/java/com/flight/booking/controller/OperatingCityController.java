@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,11 +31,12 @@ public class OperatingCityController {
 	@Autowired
 	private OperatingCityService operatingCityService;
 
-	@PostMapping("add-operating-cities")
+	@PostMapping("secure/add-operating-cities")
 	@ApiOperation(value = "add-operating-cities", nickname = "add-operating-cities", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "Ok", response = OperatingCity.class, responseContainer = "List") })
-	public List<OperatingCity> addOperatingCitis(@RequestBody List<OperatingCity> operatingCities) {
+	public List<OperatingCity> addOperatingCitis(@RequestHeader("AccessToken") String token,
+			@RequestBody List<OperatingCity> operatingCities) {
 		return operatingCityService.addOperatingCitis(operatingCities);
 	}
 
@@ -47,11 +49,12 @@ public class OperatingCityController {
 		return operatingCityService.getAllOperatingCities(Boolean.parseBoolean(includeInactive));
 	}
 
-	@PutMapping("update-operating-cities")
+	@PutMapping("secure/update-operating-cities")
 	@ApiOperation(value = "update-operating-cities", nickname = "update-operating-cities", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "Ok", response = OperatingCity.class, responseContainer = "List") })
-	public List<OperatingCity> updateOperatingCities(@RequestBody List<OperatingCity> operatingCities) {
+	public List<OperatingCity> updateOperatingCities(@RequestHeader("AccessToken") String token,
+			@RequestBody List<OperatingCity> operatingCities) {
 		return operatingCityService.updateOperatingCities(operatingCities);
 	}
 

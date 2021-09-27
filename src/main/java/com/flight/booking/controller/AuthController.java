@@ -29,10 +29,11 @@ public class AuthController {
 	@Autowired
 	private AuthService authService;
 
-	@GetMapping("user-details")
+	@GetMapping("secure/user-details")
 	@ApiOperation(value = "user-details", nickname = "user-details", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = User.class) })
-	public User userDetails(@RequestParam(name = "signInId", required = true) String signInId) {
+	public User userDetails(@RequestHeader("AccessToken") String token,
+			@RequestParam(name = "signInId", required = true) String signInId) {
 		return authService.userDetails(signInId);
 	}
 
@@ -52,24 +53,25 @@ public class AuthController {
 		return authService.signUp(userRq, password);
 	}
 
-	@PostMapping("signout")
+	@PostMapping("secure/signout")
 	@ApiOperation(value = "signout", nickname = "signout", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Void.class) })
-	public void signOut(@RequestHeader String accessToken) {
-		authService.signOut(accessToken);
+	public void signOut(@RequestHeader("AccessToken") String token) {
+		authService.signOut(token);
 	}
 
-	@PutMapping("update-details")
+	@PutMapping("secure/update-details")
 	@ApiOperation(value = "update-details", nickname = "update-details", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = User.class) })
-	public User updateUserDetails(@RequestBody User userRq) {
+	public User updateUserDetails(@RequestHeader("AccessToken") String token, @RequestBody User userRq) {
 		return authService.updateUserDetails(userRq);
 	}
 
-	@PutMapping("update-pasword")
+	@PutMapping("secure/update-pasword")
 	@ApiOperation(value = "update-pasword", nickname = "update-pasword", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Void.class) })
-	public void updatePassword(@RequestHeader(name = "password", required = true) String password,
+	public void updatePassword(@RequestHeader("AccessToken") String token,
+			@RequestHeader(name = "password", required = true) String password,
 			@RequestParam(name = "userId", required = true) Integer userId) {
 		authService.updatePassword(userId, password);
 	}

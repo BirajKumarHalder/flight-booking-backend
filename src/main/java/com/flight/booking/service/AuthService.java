@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import com.flight.booking.repository.UserRepository;
 import com.flight.booking.repository.entity.BlockedTokenEntity;
 import com.flight.booking.repository.entity.UserCredentialEntity;
 import com.flight.booking.repository.entity.UserEntity;
-import com.flight.booking.utils.JwtUtils;
+import com.flight.booking.util.JwtUtils;
 
 @Service
 public class AuthService {
@@ -92,6 +93,7 @@ public class AuthService {
 	}
 
 	public void signOut(String accessToken) {
+		accessToken = accessToken.substring(7);
 		BlockedTokenEntity tokenEntity = new BlockedTokenEntity();
 		tokenEntity.setToken(accessToken);
 		blockedTokenRepository.save(tokenEntity);
@@ -128,6 +130,11 @@ public class AuthService {
 			userRepository.save(userEntity);
 			return user;
 		}).orElse(null);
+	}
+
+	public boolean isLoggedoutToken(String token) {
+		BlockedTokenEntity blockedTokenEntity = blockedTokenRepository.findByToken(token).orElse(null);
+		return Objects.nonNull(blockedTokenEntity);
 	}
 
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,10 +26,10 @@ public class FileController {
 	@Autowired
 	private FileService fileService;
 
-	@PostMapping("upload-file")
+	@PostMapping("secure/upload-file")
 	@ApiOperation(value = "upload-file", nickname = "upload-file", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Integer.class) })
-	public Integer uploadFile(@RequestParam("file") MultipartFile file) {
+	public Integer uploadFile(@RequestHeader("AccessToken") String token, @RequestParam("file") MultipartFile file) {
 		return fileService.uploadFile(file);
 	}
 

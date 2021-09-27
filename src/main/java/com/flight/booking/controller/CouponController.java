@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,32 +31,34 @@ public class CouponController {
 	@Autowired
 	private CouponService couponService;
 
-	@GetMapping("all-coupons")
+	@GetMapping("secure/all-coupons")
 	@ApiOperation(value = "all-coupons", nickname = "all-coupons", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Coupon.class, responseContainer = "List") })
-	public List<Coupon> getAllCoupons(
+	public List<Coupon> getAllCoupons(@RequestHeader("AccessToken") String token,
 			@RequestParam(name = "include-inactive", defaultValue = "false") String includeInactive) {
 		return couponService.getAllCoupons(Boolean.parseBoolean(includeInactive));
 	}
 
-	@GetMapping("get-by-coupon-name")
+	@GetMapping("secure/get-by-coupon-name")
 	@ApiOperation(value = "get-by-coupon-name", nickname = "get-by-coupon-name", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Coupon.class, responseContainer = "List") })
-	public List<Coupon> getByCouponName(@RequestParam(name = "name", required = true) String couponName) {
+	public List<Coupon> getByCouponName(@RequestHeader("AccessToken") String token,
+			@RequestParam(name = "name", required = true) String couponName) {
 		return couponService.getByCouponName(couponName);
 	}
 
-	@PostMapping("add-coupon")
+	@PostMapping("secure/add-coupon")
 	@ApiOperation(value = "add-coupon", nickname = "add-coupon", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Coupon.class, responseContainer = "List") })
-	public List<Coupon> addCoupons(@RequestBody List<Coupon> coupons) {
+	public List<Coupon> addCoupons(@RequestHeader("AccessToken") String token, @RequestBody List<Coupon> coupons) {
 		return couponService.addCoupons(coupons);
 	}
 
-	@PutMapping("change-coupon-status")
+	@PutMapping("secure/change-coupon-status")
 	@ApiOperation(value = "change-coupon-status", nickname = "change-coupon-status", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Integer.class) })
-	public Integer changeCouponStatus(@RequestParam(name = "couponId", required = true) String couponId,
+	public Integer changeCouponStatus(@RequestHeader("AccessToken") String token,
+			@RequestParam(name = "couponId", required = true) String couponId,
 			@RequestParam(name = "status", required = true) String status) {
 		return couponService.changeCouponStatus(Integer.parseInt(couponId), Boolean.parseBoolean(status));
 	}

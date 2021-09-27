@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,17 +30,19 @@ public class RoasterController {
 	@Autowired
 	private RoasterService roasterService;
 
-	@PostMapping("schedule-roaster")
+	@PostMapping("secure/schedule-roaster")
 	@ApiOperation(value = "schedule-roaster", nickname = "schedule-roaster", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Roaster.class, responseContainer = "List") })
-	public List<Roaster> scheduleRoaster(@RequestBody List<Roaster> roasters) {
+	public List<Roaster> scheduleRoaster(@RequestHeader("AccessToken") String token,
+			@RequestBody List<Roaster> roasters) {
 		return roasterService.scheduleRoaster(roasters);
 	}
 
-	@GetMapping("roaster-for-date")
+	@GetMapping("secure/roaster-for-date")
 	@ApiOperation(value = "roaster-for-date", nickname = "roaster-for-date", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Roaster.class, responseContainer = "List") })
-	public List<Roaster> getRoastersForDate(@RequestParam(name = "date", required = true) String date) {
+	public List<Roaster> getRoastersForDate(@RequestHeader("AccessToken") String token,
+			@RequestParam(name = "date", required = true) String date) {
 		return roasterService.getRoastersForDate(date);
 	}
 
