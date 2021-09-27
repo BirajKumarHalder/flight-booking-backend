@@ -19,7 +19,7 @@ import com.flight.booking.repository.UserRepository;
 import com.flight.booking.repository.entity.BlockedTokenEntity;
 import com.flight.booking.repository.entity.UserCredentialEntity;
 import com.flight.booking.repository.entity.UserEntity;
-import com.flight.booking.utils.JwtUtils;
+import com.flight.booking.util.JwtUtils;
 
 @Service
 public class AuthService {

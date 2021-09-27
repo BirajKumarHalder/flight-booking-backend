@@ -1,4 +1,4 @@
-package com.flight.booking.utils;
+package com.flight.booking.util;
 
 import java.util.Date;
 import java.util.Map;

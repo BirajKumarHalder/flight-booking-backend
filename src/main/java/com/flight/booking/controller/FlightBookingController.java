@@ -51,6 +51,13 @@ public class FlightBookingController {
 		return bookingService.searchTicket(ticketNumber);
 	}
 
+	@GetMapping("download-ticket")
+	@ApiOperation(value = "download-ticket", nickname = "download-ticket", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = String.class) })
+	public String downloadTicket(@RequestParam(name = "ticket", required = true) String ticketNumber) {
+		return bookingService.downloadTicket(ticketNumber);
+	}
+
 	@GetMapping("search-pnr-by-user")
 	@ApiOperation(value = "earch-pnr-by-user", nickname = "earch-pnr-by-user", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Pnr.class, responseContainer = "List") })
