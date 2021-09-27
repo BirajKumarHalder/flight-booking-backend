@@ -24,9 +24,9 @@ DROP TABLE IF EXISTS `blocked_tokens`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `blocked_tokens` (
   `token_id` int(11) NOT NULL AUTO_INCREMENT,
-  `token` varchar(200) NOT NULL,
+  `token` longtext NOT NULL,
   PRIMARY KEY (`token_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,4 +47,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-09-25 16:14:15
+-- Dump completed on 2021-09-27 21:12:57
