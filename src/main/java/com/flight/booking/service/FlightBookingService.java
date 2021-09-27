@@ -1,6 +1,8 @@
 package com.flight.booking.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +27,8 @@ import com.flight.booking.repository.entity.TicketEntity;
 import com.flight.booking.repository.entity.UserEntity;
 import com.flight.booking.util.FlightUtils;
 import com.flight.booking.util.Mappers;
+
+import net.sf.jasperreports.engine.JRException;
 
 @Service
 public class FlightBookingService {
@@ -183,6 +187,20 @@ public class FlightBookingService {
 			ticketDetails.setBookingUserEmail(bookingEntity.getUser().getEmail());
 			return ticketDetails;
 		}).orElse(null);
+	}
+
+	public String downloadTicket(String ticketNumber) {
+		TicketDetails ticketDetails = searchTicket(ticketNumber);
+		byte[] pdf = null;
+		if (ticketDetails != null) {
+			try {
+				pdf = FlightUtils.createTicketPdf(Arrays.asList(ticketDetails));
+			} catch (JRException e) {
+				e.printStackTrace();
+				throw new RuntimeException("not able to download ticket");
+			}
+		}
+		return Base64.getEncoder().encodeToString(pdf);
 	}
 
 }
