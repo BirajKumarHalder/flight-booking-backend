@@ -25,9 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.cors();
 		httpSecurity.csrf().disable();
 		httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		httpSecurity.authorizeRequests().antMatchers("/api/v1.0/user/secure/**").authenticated()
-				.antMatchers("/api/v1.0/flight/secure/**").authenticated().and().exceptionHandling()
-				.authenticationEntryPoint(jwtAuthenticationEntryPoint);
+		httpSecurity.authorizeRequests().antMatchers("/swagger-resources/**").permitAll().antMatchers("/swagger-ui/**")
+				.permitAll().antMatchers("/swagger/**").permitAll().antMatchers("/v2/api-docs").permitAll()
+				.antMatchers("/user/public/**").permitAll().antMatchers("/flight/public/**").permitAll().anyRequest()
+				.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 

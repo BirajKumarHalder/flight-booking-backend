@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flight.booking.model.OperatingCity;
@@ -40,13 +39,20 @@ public class OperatingCityController {
 		return operatingCityService.addOperatingCitis(operatingCities);
 	}
 
-	@GetMapping("all-operating-cities")
+	@GetMapping("public/active-operating-cities")
+	@ApiOperation(value = "active-operating-cities", nickname = "active-operating-cities", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "Ok", response = OperatingCity.class, responseContainer = "List") })
+	public List<OperatingCity> getActiveOperatingCities() {
+		return operatingCityService.getAllOperatingCities(false);
+	}
+
+	@GetMapping("secure/all-operating-cities")
 	@ApiOperation(value = "all-operating-cities", nickname = "all-operating-cities", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "Ok", response = OperatingCity.class, responseContainer = "List") })
-	public List<OperatingCity> getAllOperatingCities(
-			@RequestParam(name = "include-inactive", defaultValue = "false") String includeInactive) {
-		return operatingCityService.getAllOperatingCities(Boolean.parseBoolean(includeInactive));
+	public List<OperatingCity> getAllOperatingCities(@RequestHeader("AccessToken") String token) {
+		return operatingCityService.getAllOperatingCities(true);
 	}
 
 	@PutMapping("secure/update-operating-cities")

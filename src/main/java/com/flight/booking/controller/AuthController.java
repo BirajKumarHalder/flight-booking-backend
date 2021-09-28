@@ -37,7 +37,7 @@ public class AuthController {
 		return authService.userDetails(signInId);
 	}
 
-	@PostMapping("signin")
+	@PostMapping("public/signin")
 	@ApiOperation(value = "signin", nickname = "signin", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = String.class) })
 	public String signIn(@RequestHeader(name = "password", required = true) String password,
@@ -46,14 +46,14 @@ public class AuthController {
 		return authService.signIn(signInId, password, Boolean.parseBoolean(adminLogin));
 	}
 
-	@PostMapping("register")
+	@PostMapping("public/register")
 	@ApiOperation(value = "register", nickname = "register", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = String.class) })
 	public String signUp(@RequestHeader(name = "password", required = true) String password, @RequestBody User userRq) {
 		return authService.signUp(userRq, password);
 	}
 
-	@PostMapping("secure/signout")
+	@PostMapping("public/signout")
 	@ApiOperation(value = "signout", nickname = "signout", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Void.class) })
 	public void signOut(@RequestHeader("AccessToken") String token) {
