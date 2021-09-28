@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ public class OperatingCityController {
 	@Autowired
 	private OperatingCityService operatingCityService;
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("secure/add-operating-cities")
 	@ApiOperation(value = "add-operating-cities", nickname = "add-operating-cities", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({
@@ -47,6 +49,7 @@ public class OperatingCityController {
 		return operatingCityService.getAllOperatingCities(false);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("secure/all-operating-cities")
 	@ApiOperation(value = "all-operating-cities", nickname = "all-operating-cities", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({
@@ -55,6 +58,7 @@ public class OperatingCityController {
 		return operatingCityService.getAllOperatingCities(true);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("secure/update-operating-cities")
 	@ApiOperation(value = "update-operating-cities", nickname = "update-operating-cities", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({

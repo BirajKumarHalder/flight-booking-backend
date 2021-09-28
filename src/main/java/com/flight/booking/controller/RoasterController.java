@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ public class RoasterController {
 	@Autowired
 	private RoasterService roasterService;
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("secure/schedule-roaster")
 	@ApiOperation(value = "schedule-roaster", nickname = "schedule-roaster", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Roaster.class, responseContainer = "List") })
@@ -38,6 +40,7 @@ public class RoasterController {
 		return roasterService.scheduleRoaster(roasters);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("secure/roaster-for-date")
 	@ApiOperation(value = "roaster-for-date", nickname = "roaster-for-date", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Roaster.class, responseContainer = "List") })

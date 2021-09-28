@@ -49,7 +49,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				String email = (String) claims.get("email");
 				Optional.ofNullable(authService.userDetails(email)).ifPresent(user -> {
 					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-							user, null, Arrays.asList(new SimpleGrantedAuthority(user.getRole())));
+							user, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_" + user.getRole())));
 					usernamePasswordAuthenticationToken
 							.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 					SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

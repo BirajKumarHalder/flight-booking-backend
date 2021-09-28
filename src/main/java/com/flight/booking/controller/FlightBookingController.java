@@ -54,7 +54,7 @@ public class FlightBookingController {
 		return bookingService.searchTicket(ticketNumber);
 	}
 
-	@GetMapping("download-ticket")
+	@GetMapping("secure/download-ticket")
 	@ApiOperation(value = "download-ticket", nickname = "download-ticket", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = String.class) })
 	public String downloadTicket(@RequestParam(name = "ticket", required = true) String ticketNumber) {

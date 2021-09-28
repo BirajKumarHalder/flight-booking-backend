@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class AirlineController {
 	@Autowired
 	private AirlineService airlineService;
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("secure/add-airline")
 	@ApiOperation(value = "add-airline", nickname = "add-airline", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Airline.class, responseContainer = "List") })
@@ -39,6 +41,7 @@ public class AirlineController {
 		return airlineService.addAirlines(airlines);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("secure/all-airlines")
 	@ApiOperation(value = "all-airlines", nickname = "all-airlines", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Airline.class, responseContainer = "List") })
@@ -47,6 +50,7 @@ public class AirlineController {
 		return airlineService.getAllAirlines(Boolean.parseBoolean(includeInactive));
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("secure/update-airlines")
 	@ApiOperation(value = "update-airlines", nickname = "update-airlines", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Airline.class, responseContainer = "List") })
@@ -55,6 +59,7 @@ public class AirlineController {
 		return airlineService.updateAirlines(airlines);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("secure/change-airline-status")
 	@ApiOperation(value = "change-airline-status", nickname = "change-airline-status", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Integer.class) })
@@ -64,6 +69,7 @@ public class AirlineController {
 		return airlineService.changeAirlineStatus(Integer.parseInt(airlineId), Boolean.parseBoolean(status));
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("secure/delete-airlines")
 	@ApiOperation(value = "delete-airlines", nickname = "delete-airlines", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Integer.class, responseContainer = "List") })

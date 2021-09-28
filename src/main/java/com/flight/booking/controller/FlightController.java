@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class FlightController {
 	@Autowired
 	private FlightService flightService;
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("secure/add-flight")
 	@ApiOperation(value = "add-flight", nickname = "add-flight", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Flight.class, responseContainer = "List") })
@@ -39,6 +41,7 @@ public class FlightController {
 		return flightService.addFlights(flights);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("secure/all-flight")
 	@ApiOperation(value = "all-flight", nickname = "all-flight", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Flight.class, responseContainer = "List") })
@@ -47,6 +50,7 @@ public class FlightController {
 		return flightService.getAllFlights(Boolean.parseBoolean(includeInactive));
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("secure/flight-for-date")
 	@ApiOperation(value = "flight-for-date", nickname = "flight-for-date", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Flight.class, responseContainer = "List") })
@@ -56,6 +60,7 @@ public class FlightController {
 		return flightService.getFlightsForDate(date, Boolean.parseBoolean(includeInactive));
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("secure/update-flight")
 	@ApiOperation(value = "update-flight", nickname = "update-flight", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Flight.class, responseContainer = "List") })
@@ -63,6 +68,7 @@ public class FlightController {
 		return flightService.updateFlights(flights);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("secure/change-flight-status")
 	@ApiOperation(value = "change-flight-status", nickname = "change-flight-status", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Integer.class) })
@@ -72,6 +78,7 @@ public class FlightController {
 		return flightService.changeFlightStatus(Integer.parseInt(flightId), Boolean.parseBoolean(status));
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("secure/delete-flight")
 	@ApiOperation(value = "delete-flight", nickname = "delete-flight", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Integer.class, responseContainer = "List") })

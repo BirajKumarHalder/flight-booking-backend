@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,7 @@ public class CouponController {
 	@Autowired
 	private CouponService couponService;
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("secure/all-coupons")
 	@ApiOperation(value = "all-coupons", nickname = "all-coupons", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Coupon.class, responseContainer = "List") })
@@ -47,6 +49,7 @@ public class CouponController {
 		return couponService.getByCouponName(couponName);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("secure/add-coupon")
 	@ApiOperation(value = "add-coupon", nickname = "add-coupon", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Coupon.class, responseContainer = "List") })
@@ -54,6 +57,7 @@ public class CouponController {
 		return couponService.addCoupons(coupons);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("secure/change-coupon-status")
 	@ApiOperation(value = "change-coupon-status", nickname = "change-coupon-status", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = Integer.class) })
