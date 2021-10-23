@@ -1,6 +1,7 @@
 package com.flight.booking.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,8 +20,8 @@ public class OperatingCityService {
 
 	public List<OperatingCity> addOperatingCitis(List<OperatingCity> operatingCities) {
 		return operatingCities.parallelStream()
-				.filter(city -> Optional
-						.ofNullable(operatingCityRepository.findByCityCode(city.getCityCode()).orElse(null)).isEmpty())
+				.filter(city -> Objects.isNull(
+						Optional.ofNullable(operatingCityRepository.findByCityCode(city.getCityCode()).orElse(null))))
 				.map(city -> {
 					OperatingCityEntity cityEntity = new OperatingCityEntity();
 					cityEntity.setCityCode(city.getCityCode());

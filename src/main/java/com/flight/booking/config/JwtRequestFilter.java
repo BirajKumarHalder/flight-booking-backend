@@ -41,7 +41,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		String accessToken = httpServletRequest.getHeader("AccessToken");
 		if (Objects.nonNull(accessToken) && accessToken.startsWith("Bearer ")) {
 			String jwt = accessToken.substring(7);
-			if (!jwt.isBlank() && !authService.isLoggedoutToken(jwt)) {
+			if (Objects.nonNull(jwt) && !authService.isLoggedoutToken(jwt)) {
 				Claims claims = JwtUtils.parseToken(jwt, jwtSecret);
 				if (!claims.getSubject().equals(jwtSubject)) {
 					throw new MalformedJwtException("Subject not matched");
