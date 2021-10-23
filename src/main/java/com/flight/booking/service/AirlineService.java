@@ -1,6 +1,7 @@
 package com.flight.booking.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,9 +24,8 @@ public class AirlineService {
 
 	public List<Airline> addAirlines(List<Airline> airlines) {
 		return airlines.parallelStream()
-				.filter(airline -> Optional
-						.ofNullable(airlineRepository.findByAirlineName(airline.getAirlineName()).orElse(null))
-						.isEmpty())
+				.filter(airline -> Objects.isNull(Optional
+						.ofNullable(airlineRepository.findByAirlineName(airline.getAirlineName()).orElse(null))))
 				.map(airline -> {
 					AirlineEntity airlineEntity = new AirlineEntity();
 					airlineEntity.setAirlineName(airline.getAirlineName());

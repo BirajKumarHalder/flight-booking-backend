@@ -26,7 +26,7 @@ public class FlightSearchController {
 	@Autowired
 	private FlightSearchService flightSearchService;
 
-	@PostMapping("search")
+	@PostMapping("public/search")
 	@ApiOperation(value = "search", nickname = "search", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = FlightSearchResponse.class) })
 	public FlightSearchResponse getAllFlights(@RequestBody FlightSearchRequest searchRq) {
