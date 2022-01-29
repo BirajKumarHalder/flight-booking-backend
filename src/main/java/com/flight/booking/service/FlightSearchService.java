@@ -41,7 +41,7 @@ public class FlightSearchService {
 		FlightSearchResponse flightSearchResponse = new FlightSearchResponse();
 		if (searchRq.getCurrentSearch() != 0) {
 			SearchCritaria critaria = searchRq.getSearchCriterias().get(searchRq.getCurrentSearch() - 1);
-			Date journeyDate = FlightUtils.getFormattedDate(critaria.getJourneyDate(), "dd/MM/yyyy");
+			Date journeyDate = FlightUtils.getFormattedDate(critaria.getJourneyDate(), "MM-dd-yyyy");
 			int originCityId = cityRepository.findByCityCode(critaria.getOriginCityCode()).get().getCityId();
 			int destinationCityId = cityRepository.findByCityCode(critaria.getDestinationCityCode()).get().getCityId();
 			List<RoasterEntity> roasterEntities = customJpaRepository
@@ -56,6 +56,8 @@ public class FlightSearchService {
 				Airline airline = new Airline();
 				airline.setAirlineId(roasterFlightEntity.getAirline().getAirlineId());
 				airline.setAirlineName(roasterFlightEntity.getAirline().getAirlineName());
+				airline.setAirlineLogo(roasterFlightEntity.getAirline().getAirlineLogo().getFileContent());
+				airline.setAirlineLogoType(roasterFlightEntity.getAirline().getAirlineLogo().getFileType());
 				flight.setAirline(airline);
 				flight.setStartTime(roasterFlightEntity.getStartTime());
 				flight.setEndTime(roasterFlightEntity.getEndTime());
@@ -81,7 +83,7 @@ public class FlightSearchService {
 				roasterStatus.setStatusId(roasterEntity.getStatus().getStatusId());
 				roasterStatus.setStatusName(roasterEntity.getStatus().getStatusName());
 				roaster.setStatus(roasterStatus);
-				roaster.setRoasterDate(new SimpleDateFormat("dd/MM/yyyy").format(roasterEntity.getRoasterDate()));
+				roaster.setRoasterDate(new SimpleDateFormat("MM-dd-yyyy").format(roasterEntity.getRoasterDate()));
 				roaster.setDepurture(roasterEntity.getDepurture());
 				roaster.setArrival(roasterEntity.getArrival());
 				roaster.setDelayTimeInMins(roasterEntity.getDelayTimeInMins());
@@ -139,7 +141,7 @@ public class FlightSearchService {
 				roasterStatus.setStatusId(roasterEntity.getStatus().getStatusId());
 				roasterStatus.setStatusName(roasterEntity.getStatus().getStatusName());
 				roaster.setStatus(roasterStatus);
-				roaster.setRoasterDate(new SimpleDateFormat("dd/MM/yyyy").format(roasterEntity.getRoasterDate()));
+				roaster.setRoasterDate(new SimpleDateFormat("MM-dd-yyyy").format(roasterEntity.getRoasterDate()));
 				roaster.setDepurture(roasterEntity.getDepurture());
 				roaster.setArrival(roasterEntity.getArrival());
 				roaster.setDelayTimeInMins(roasterEntity.getDelayTimeInMins());
